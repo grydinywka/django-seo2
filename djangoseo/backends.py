@@ -13,7 +13,7 @@ from django.template import Template, Context
 from django.utils.encoding import python_2_unicode_compatible
 from six import string_types, with_metaclass
 
-from djangoseo.utils import resolve_to_name, NotSet, Literal
+from djangoseo.utils import resolve_to_name, resolve_to_app_and_name, NotSet, Literal
 
 RESERVED_FIELD_NAMES = ('_metadata', '_path', '_content_type', '_object_id',
                         '_content_object', '_view', '_site', 'objects',
@@ -247,7 +247,7 @@ class ViewBackend(MetadataBackend):
     def get_instances(self, queryset, path, context):
         view_name = ""
         if path is not None:
-            view_name = resolve_to_name(path)
+            view_name = resolve_to_app_and_name(path)
         return queryset.filter(_view=view_name or "")
 
     def get_model(self, options):

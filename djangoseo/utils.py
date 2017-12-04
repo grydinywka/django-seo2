@@ -7,7 +7,7 @@ from django.utils.safestring import mark_safe
 from django.utils.html import conditional_escape
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import (RegexURLResolver, RegexURLPattern,
-                                      Resolver404, get_resolver)
+                                      Resolver404, get_resolver, resolve)
 
 
 class NotSet(object):
@@ -124,3 +124,7 @@ def _get_seo_content_types(seo_models):
 
 def get_seo_content_types(seo_models):
     return lazy(_get_seo_content_types, list)(seo_models)
+
+def resolve_to_app_and_name(path):
+    resolve_match = resolve(path)
+    return resolve_match.namespaces[0] + ':' + resolve_match.url_name
